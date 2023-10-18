@@ -62,7 +62,7 @@ export class PartnersInMemoryRepository implements PartnerRepository {
     return partner;
   }
 
-  async findByAddress(cep: string): Promise<Partner> {
+  async findByAddress(cep: string): Promise<Partner[]> {
     throw new Error('Method not implemented.');
   }
 
