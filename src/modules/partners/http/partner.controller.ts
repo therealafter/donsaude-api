@@ -8,6 +8,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 
 import { PartnerService } from '../domain/partner.service';
@@ -47,8 +48,12 @@ export class PartnerController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  async findAll(): Promise<Partner[]> {
-    return await this.partnerService.findAllPartners();
+  async findAllPartners(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+    @Query('search') search: string,
+  ): Promise<Partner[]> {
+    return this.partnerService.findAllPartners(page, limit, search);
   }
 
   @Get(':id')
