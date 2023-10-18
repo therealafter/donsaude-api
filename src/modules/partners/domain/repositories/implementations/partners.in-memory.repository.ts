@@ -63,10 +63,12 @@ export class PartnersInMemoryRepository implements PartnerRepository {
   }
 
   async findByAddress(cep: string): Promise<Partner[]> {
-    throw new Error('Method not implemented.');
-  }
+    const partners = this.partner.filter((item) => {
+      const address = item.addresses.find((address) => address.cep === cep);
 
-  async findNearest(nearest: string): Promise<Partner> {
-    throw new Error('Method not implemented.');
+      return address;
+    });
+
+    return partners;
   }
 }

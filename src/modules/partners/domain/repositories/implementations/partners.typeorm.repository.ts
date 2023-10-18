@@ -58,8 +58,4 @@ export class PartnersTypeOrmRepository implements PartnerRepository {
 
     return partners;
   }
-
-  async findNearest(nearest: string): Promise<Partner> {
-    throw new Error('Method not implemented.');
-  }
 }

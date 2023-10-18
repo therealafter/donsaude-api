@@ -11,7 +11,6 @@ export interface PartnerRepository {
   findByDocument(document: string): Promise<Partner>;
   findByCoverageArea(coverageArea: string): Promise<Partner>;
   findByAddress(cep: string): Promise<Partner[]>;
-  findNearest(nearest: string): Promise<Partner>;
 }
 
 export const PARTNER_REPOSITORY_TOKEN = 'partner-repository-token';
