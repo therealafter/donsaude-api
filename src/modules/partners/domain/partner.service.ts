@@ -92,14 +92,10 @@ export class PartnerService {
     );
   }
 
-  async findAllPartners(
-    page: number,
-    limit: number,
-    search: string,
-  ): Promise<Partner[]> {
+  async findAllPartners(page: number, limit: number): Promise<Partner[]> {
     this.loggerService.info('Listing partners');
 
-    const partners = await this.partnerRepository.findAll(page, limit, search);
+    const partners = await this.partnerRepository.findAll(page, limit);
 
     this.loggerService.info(`Partners found successfully ${partners.length}`);
 

@@ -45,11 +45,7 @@ export class PartnersInMemoryRepository implements PartnerRepository {
     this.partner.splice(index, 1);
   }
 
-  async findAll(
-    page: number,
-    limit: number,
-    search: string,
-  ): Promise<Partner[]> {
+  async findAll(page: number, limit: number): Promise<Partner[]> {
     const partners = this.partner.slice((page - 1) * limit, page * limit);
     return partners;
   }
@@ -70,6 +66,7 @@ export class PartnersInMemoryRepository implements PartnerRepository {
   }
 
   async findByAddress(cep: string): Promise<Partner[]> {
-    throw new Error('Method not implemented.');
+    const partners = this.partner.filter((item) => item.address.cep === cep);
+    return partners;
   }
 }

@@ -29,7 +29,6 @@ export class PartnersTypeOrmRepository implements PartnerRepository {
   async findAll(
     page: number,
     limit: number,
-    search: string,
   ): Promise<Partner[]> {
     const partners = await this.partnerRepository.find({
       skip: (page - 1) * limit,

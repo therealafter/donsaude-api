@@ -5,7 +5,7 @@ export interface PartnerRepository {
   create(partner: Partner): Promise<void>;
   update(id: string, partner: UpdatePartnerDto): Promise<void>;
   delete(id: string): Promise<void>;
-  findAll(page: number, limit: number, search: string): Promise<Partner[]>;
+  findAll(page: number, limit: number): Promise<Partner[]>;
   findById(id: string): Promise<Partner>;
   findByEmail(email: string): Promise<Partner>;
   findByDocument(document: string): Promise<Partner>;
