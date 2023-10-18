@@ -8,6 +8,9 @@ import { Partner } from './entities/partner.entity';
 import { LoggerService } from 'src/common/loggers/logger.service';
 import { ICepResponse } from './dtos/cep.dto';
 import { HttpService } from '@nestjs/axios';
+import { validateAndFormatCNPJ } from './utils/format-cep';
+
+import { hash } from 'bcrypt';
 
 @Injectable()
 export class PartnerService {
@@ -29,15 +32,21 @@ export class PartnerService {
       throw new HttpException('Partner already exists', 409);
     }
 
-    const cnpjIsInvalid = !partner.cnpj.match(
-      /^\d{2}\.\d{3}\.\d{3}\/\d{4}\-\d{2}$/,
-    );
+    const validateCnpj = validateAndFormatCNPJ(partner.cnpj);
 
-    if (cnpjIsInvalid) {
+    if (!validateCnpj) {
       throw new HttpException('CNPJ is invalid', 400);
     }
 
+    if (partner.password !== partner.confirmPassword) {
+      throw new HttpException('Password and confirm password not match', 400);
+    }
+
+    const hashPassword = await hash(partner.password, 10);
+
     await this.partnerRepository.create({
+      cnpj: validateCnpj,
+      password: hashPassword,
       ...partner,
     });
 
