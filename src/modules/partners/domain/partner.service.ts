@@ -5,15 +5,19 @@ import {
   PartnerRepository,
 } from './repositories/partner.repository.interface';
 import { Partner } from './entities/partner.entity';
+import { LoggerService } from 'src/common/loggers/logger.service';
 
 @Injectable()
 export class PartnerService {
   constructor(
     @Inject(PARTNER_REPOSITORY_TOKEN)
     private readonly partnerRepository: PartnerRepository,
+    private readonly loggerService: LoggerService,
   ) {}
 
   async addPartner(partner: AddPartnerDto): Promise<void> {
+    this.loggerService.info('Adding partner');
+
     const partnerAlreadyExists = await this.partnerRepository.findByDocument(
       partner.cnpj,
     );
@@ -33,9 +37,13 @@ export class PartnerService {
     await this.partnerRepository.create({
       ...partner,
     });
+
+    this.loggerService.info(`Partner ${partner.cnpj} added successfully`);
   }
 
   async updatePartner(id: string, partner: AddPartnerDto): Promise<void> {
+    this.loggerService.info('Updating partner');
+
     const partnerAlreadyExists = await this.partnerRepository.findById(id);
 
     if (!partnerAlreadyExists) {
@@ -43,9 +51,13 @@ export class PartnerService {
     }
 
     await this.partnerRepository.update(id, partner);
+
+    this.loggerService.info(`Partner ${partner.cnpj} updated successfully`);
   }
 
   async deletePartner(id: string): Promise<void> {
+    this.loggerService.info('Deleting partner');
+
     const partnerAlreadyExists = await this.partnerRepository.findById(id);
 
     if (!partnerAlreadyExists) {
@@ -53,20 +65,32 @@ export class PartnerService {
     }
 
     await this.partnerRepository.delete(id);
+
+    this.loggerService.info(
+      `Partner ${partnerAlreadyExists.cnpj} deleted successfully`,
+    );
   }
 
   async findAllPartners(): Promise<Partner[]> {
+    this.loggerService.info('Listing partners');
+
     const partners = await this.partnerRepository.findAll();
+
+    this.loggerService.info('Partners listed successfully');
 
     return partners;
   }
 
   async findPartnerById(id: string): Promise<Partner> {
+    this.loggerService.info('Searching partner');
+
     const partner = await this.partnerRepository.findById(id);
 
     if (!partner) {
       throw new HttpException('Partner not found', 404);
     }
+
+    this.loggerService.info('Partner found successfully');
 
     return partner;
   }
