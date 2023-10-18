@@ -30,7 +30,6 @@ export class PartnerAddress {
   @Column({ name: 'neighborhood' })
   neighborhood: string;
 
-  // Relationship with Partner
   @ManyToOne(() => Partner, (partner) => partner.addresses, {
     onDelete: 'CASCADE',
   })
