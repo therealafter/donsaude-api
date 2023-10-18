@@ -4,18 +4,26 @@ import { PartnerRepository } from '../partner.repository.interface';
 import { Repository } from 'typeorm';
 
 export class PartnersTypeOrmRepository implements PartnerRepository {
-  constructor(private partnerRepsoitory: Repository<Partner>) {}
+  constructor(private partnerRepository: Repository<Partner>) {}
 
   async create(partner: Partner): Promise<void> {
-    await this.partnerRepsoitory.save(partner);
+    await this.partnerRepository.save(partner);
   }
 
   async update(id: string, partner: UpdatePartnerDto): Promise<void> {
-    await this.partnerRepsoitory.update(id, partner);
+    await this.partnerRepository.update(id, partner);
   }
 
   async delete(id: string): Promise<void> {
-    await this.partnerRepsoitory.delete(id);
+    await this.partnerRepository.delete(id);
+  }
+
+  async findByEmail(email: string): Promise<Partner> {
+    const partner = await this.partnerRepository.findOne({
+      where: { email },
+    });
+
+    return partner;
   }
 
   async findAll(
@@ -23,29 +31,22 @@ export class PartnersTypeOrmRepository implements PartnerRepository {
     limit: number,
     search: string,
   ): Promise<Partner[]> {
-    const skip = (page - 1) * limit;
-    let query = this.partnerRepsoitory.createQueryBuilder('partner');
-
-    if (search) {
-      query = query.where(
-        '(partner.name LIKE :search OR partner.email LIKE :search)',
-        { search: `%${search}%` },
-      );
-    }
-
-    const partners = await query.skip(skip).take(limit).getMany();
+    const partners = await this.partnerRepository.find({
+      skip: (page - 1) * limit,
+      take: page * limit,
+    });
 
     return partners;
   }
 
   async findById(id: string): Promise<Partner> {
-    const partner = await this.partnerRepsoitory.findOne({ where: { id } });
+    const partner = await this.partnerRepository.findOne({ where: { id } });
 
     return partner;
   }
 
   async findByDocument(document: string): Promise<Partner> {
-    const partner = await this.partnerRepsoitory.findOne({
+    const partner = await this.partnerRepository.findOne({
       where: { cnpj: document },
     });
 
@@ -53,7 +54,7 @@ export class PartnersTypeOrmRepository implements PartnerRepository {
   }
 
   async findByCoverageArea(coverageArea: string): Promise<Partner> {
-    const partner = await this.partnerRepsoitory.findOne({
+    const partner = await this.partnerRepository.findOne({
       where: { category: coverageArea },
     });
 
@@ -61,9 +62,9 @@ export class PartnersTypeOrmRepository implements PartnerRepository {
   }
 
   async findByAddress(cep: string): Promise<Partner[]> {
-    const partners = await this.partnerRepsoitory.find({
+    const partners = await this.partnerRepository.find({
       where: {
-        addresses: {
+        address: {
           cep: cep,
         },
       },

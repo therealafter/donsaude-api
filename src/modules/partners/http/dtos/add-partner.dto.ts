@@ -5,6 +5,7 @@ export class AddressDto {
   street: string;
   number: string;
   complement: string;
+  state: string;
   neighborhood: string;
   city: string;
   uf: string;

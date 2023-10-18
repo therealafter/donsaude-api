@@ -32,9 +32,18 @@ export class PartnerService {
       throw new HttpException('Partner already exists', 409);
     }
 
+    const partnerAlreadyExistsByEmail =
+      await this.partnerRepository.findByEmail(partner.email);
+
+    if (partnerAlreadyExistsByEmail) {
+      throw new HttpException('Partner already exists', 409);
+    }
+
     const validateCnpj = validateAndFormatCNPJ(partner.cnpj);
 
     if (!validateCnpj) {
+      console.log(partner.cnpj);
+      console.log(validateCnpj);
       throw new HttpException('CNPJ is invalid', 400);
     }
 
@@ -45,9 +54,9 @@ export class PartnerService {
     const hashPassword = await hash(partner.password, 10);
 
     await this.partnerRepository.create({
+      ...partner,
       cnpj: validateCnpj,
       password: hashPassword,
-      ...partner,
     });
 
     this.loggerService.info(`Partner ${partner.cnpj} added successfully`);

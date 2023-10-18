@@ -30,6 +30,11 @@ export class PartnersInMemoryRepository implements PartnerRepository {
     };
   }
 
+  async findByEmail(email: string): Promise<Partner> {
+    const partner = this.partner.find((item) => item.email === email);
+    return partner;
+  }
+
   async delete(id: string): Promise<void> {
     const index = this.partner.findIndex((item) => item.id === id);
 
@@ -65,11 +70,6 @@ export class PartnersInMemoryRepository implements PartnerRepository {
   }
 
   async findByAddress(cep: string): Promise<Partner[]> {
-    const partners = this.partner.filter((item) => {
-      const address = item.addresses.find((address) => address.cep === cep);
-      return address;
-    });
-
-    return partners;
+    throw new Error('Method not implemented.');
   }
 }

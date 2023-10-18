@@ -4,7 +4,6 @@ import { APP_FILTER } from '@nestjs/core';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { AllExceptionsFilter } from 'src/common/filters/exception.filter';
 import databaseConfig from 'src/config/database.config';
-import { PartnerAddress } from 'src/modules/partners/domain/entities/partner-address.entity';
 import { Partner } from 'src/modules/partners/domain/entities/partner.entity';
 import { PartnerModule } from 'src/modules/partners/partner.module';
 
@@ -21,7 +20,7 @@ import { PartnerModule } from 'src/modules/partners/partner.module';
         port: configDatabase.port,
         username: configDatabase.username,
         password: configDatabase.password,
-        entities: [Partner, PartnerAddress],
+        entities: [Partner],
         synchronize: true,
         database: configDatabase.database,
       }),

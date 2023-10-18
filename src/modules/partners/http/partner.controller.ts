@@ -22,7 +22,7 @@ export class PartnerController {
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async addPartner(@Body() partner: AddPartnerDto): Promise<void> {
-    await this.partnerService.addPartner(partner);
+    return await this.partnerService.addPartner(partner);
   }
 
   @Get('cep/:cep')
@@ -53,7 +53,10 @@ export class PartnerController {
     @Query('limit') limit: number = 10,
     @Query('search') search: string,
   ): Promise<Partner[]> {
-    return this.partnerService.findAllPartners(page, limit, search);
+    const pageParse = Number(page || 1);
+    const limitParse = Number(limit || 10);
+
+    return this.partnerService.findAllPartners(pageParse, limitParse, search);
   }
 
   @Get(':id')
