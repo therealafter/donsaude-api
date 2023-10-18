@@ -11,7 +11,7 @@ import { PartnerAddress } from './partner-address.entity';
 @Entity('partners')
 export class Partner {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id?: string;
 
   @Column({ name: 'partner_email' })
   email: string;

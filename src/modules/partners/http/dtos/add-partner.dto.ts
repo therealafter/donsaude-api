@@ -1,4 +1,14 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsObject, IsString } from 'class-validator';
+
+export class AddressDto {
+  cep: string;
+  street: string;
+  number: string;
+  complement: string;
+  neighborhood: string;
+  city: string;
+  uf: string;
+}
 
 export class AddPartnerDto {
   @IsEmail()
@@ -40,4 +50,8 @@ export class AddPartnerDto {
   @IsNotEmpty()
   @IsString()
   financialResponsible: string;
+
+  @IsNotEmpty()
+  @IsObject()
+  address: AddressDto;
 }
