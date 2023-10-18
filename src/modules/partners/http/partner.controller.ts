@@ -14,6 +14,7 @@ import {
 import { PartnerService } from '../domain/partner.service';
 import { AddPartnerDto } from './dtos/add-partner.dto';
 import { Partner } from '../domain/entities/partner.entity';
+import { UpdatePartnerDto } from './dtos/update-partner.dto';
 
 @Controller('partners')
 export class PartnerController {
@@ -35,7 +36,7 @@ export class PartnerController {
   @HttpCode(HttpStatus.OK)
   async updatePartner(
     @Param('id') id: string,
-    @Body() partner: AddPartnerDto,
+    @Body() partner: UpdatePartnerDto,
   ): Promise<void> {
     await this.partnerService.updatePartner(id, partner);
   }

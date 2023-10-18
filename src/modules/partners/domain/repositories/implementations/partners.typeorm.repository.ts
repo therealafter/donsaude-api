@@ -26,10 +26,7 @@ export class PartnersTypeOrmRepository implements PartnerRepository {
     return partner;
   }
 
-  async findAll(
-    page: number,
-    limit: number,
-  ): Promise<Partner[]> {
+  async findAll(page: number, limit: number): Promise<Partner[]> {
     const partners = await this.partnerRepository.find({
       skip: (page - 1) * limit,
       take: page * limit,
@@ -67,7 +64,6 @@ export class PartnersTypeOrmRepository implements PartnerRepository {
           cep: cep,
         },
       },
-      relations: ['addresses'],
     });
 
     return partners;

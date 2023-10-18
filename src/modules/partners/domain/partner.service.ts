@@ -11,6 +11,7 @@ import { HttpService } from '@nestjs/axios';
 import { validateAndFormatCNPJ } from './utils/format-cep';
 
 import { hash } from 'bcrypt';
+import { UpdatePartnerDto } from '../http/dtos/update-partner.dto';
 
 @Injectable()
 export class PartnerService {
@@ -62,7 +63,7 @@ export class PartnerService {
     this.loggerService.info(`Partner ${partner.cnpj} added successfully`);
   }
 
-  async updatePartner(id: string, partner: AddPartnerDto): Promise<void> {
+  async updatePartner(id: string, partner: UpdatePartnerDto): Promise<void> {
     this.loggerService.info('Updating partner');
 
     const partnerAlreadyExists = await this.partnerRepository.findById(id);
@@ -73,7 +74,7 @@ export class PartnerService {
 
     await this.partnerRepository.update(id, partner);
 
-    this.loggerService.info(`Partner ${partner.cnpj} updated successfully`);
+    this.loggerService.info(`Partner updated successfully`);
   }
 
   async deletePartner(id: string): Promise<void> {
