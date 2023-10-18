@@ -23,6 +23,12 @@ export class PartnerController {
     await this.partnerService.addPartner(partner);
   }
 
+  @Get('cep/:cep')
+  @HttpCode(HttpStatus.OK)
+  async getCep(@Param('cep') cep: string) {
+    return await this.partnerService.findCep(cep);
+  }
+
   @Put(':id')
   @HttpCode(HttpStatus.OK)
   async updatePartner(

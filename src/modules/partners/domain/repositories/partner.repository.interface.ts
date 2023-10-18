@@ -1,4 +1,3 @@
-import { AddPartnerDto } from '../../http/dtos/add-partner.dto';
 import { UpdatePartnerDto } from '../../http/dtos/update-partner.dto';
 import { Partner } from '../entities/partner.entity';
 

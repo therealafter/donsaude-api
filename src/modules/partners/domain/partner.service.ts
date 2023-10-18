@@ -6,6 +6,8 @@ import {
 } from './repositories/partner.repository.interface';
 import { Partner } from './entities/partner.entity';
 import { LoggerService } from 'src/common/loggers/logger.service';
+import { ICepResponse } from './dtos/cep.dto';
+import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class PartnerService {
@@ -13,6 +15,7 @@ export class PartnerService {
     @Inject(PARTNER_REPOSITORY_TOKEN)
     private readonly partnerRepository: PartnerRepository,
     private readonly loggerService: LoggerService,
+    private readonly httpService: HttpService,
   ) {}
 
   async addPartner(partner: AddPartnerDto): Promise<void> {
@@ -93,5 +96,19 @@ export class PartnerService {
     this.loggerService.info('Partner found successfully');
 
     return partner;
+  }
+
+  async findCep(cep: string): Promise<ICepResponse> {
+    const cepIsInvalid = !cep.match(/^\d{5}-?\d{3}$/);
+
+    if (cepIsInvalid) {
+      throw new HttpException('CEP is invalid', 400);
+    }
+
+    const response = await this.httpService.axiosRef.get(
+      `https://viacep.com.br/ws/${cep}/json/`,
+    );
+
+    return response.data;
   }
 }

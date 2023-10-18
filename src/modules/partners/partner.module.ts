@@ -6,9 +6,14 @@ import { PartnerAddress } from './domain/entities/partner-address.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { providePartnersRepository } from './domain/repositories/partner.repository';
 import { LoggerModule } from 'src/common/loggers/logger.module';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Partner, PartnerAddress]), LoggerModule],
+  imports: [
+    TypeOrmModule.forFeature([Partner, PartnerAddress]),
+    LoggerModule,
+    HttpModule,
+  ],
   controllers: [PartnerController],
   providers: [PartnerService, ...providePartnersRepository()],
   exports: [PartnerService],

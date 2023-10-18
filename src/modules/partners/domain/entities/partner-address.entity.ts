@@ -21,7 +21,7 @@ export class PartnerAddress {
   @Column({ name: 'number' })
   number: string;
 
-  @Column({ name: 'complement', nullable: true }) // Complement is optional, hence nullable: true
+  @Column({ name: 'complement', nullable: true })
   complement: string;
 
   @Column({ name: 'street' })
