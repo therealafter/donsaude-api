@@ -9,6 +9,7 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
+
 import { PartnerService } from '../domain/partner.service';
 import { AddPartnerDto } from './dtos/add-partner.dto';
 import { Partner } from '../domain/entities/partner.entity';

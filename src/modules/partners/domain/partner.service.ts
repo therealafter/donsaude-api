@@ -93,12 +93,14 @@ export class PartnerService {
       throw new HttpException('Partner not found', 404);
     }
 
-    this.loggerService.info('Partner found successfully');
+    this.loggerService.info(`Partner found successfully ${partner.cnpj}`);
 
     return partner;
   }
 
   async findCep(cep: string): Promise<ICepResponse> {
+    this.loggerService.info('Searching CEP');
+
     const cepIsInvalid = !cep.match(/^\d{5}-?\d{3}$/);
 
     if (cepIsInvalid) {
@@ -107,6 +109,10 @@ export class PartnerService {
 
     const response = await this.httpService.axiosRef.get(
       `https://viacep.com.br/ws/${cep}/json/`,
+    );
+
+    this.loggerService.info(
+      `CEP found successfully ${JSON.stringify(response.data)}`,
     );
 
     return response.data;
