@@ -40,32 +40,33 @@ export class PartnersInMemoryRepository implements PartnerRepository {
     this.partner.splice(index, 1);
   }
 
-  async findAll(): Promise<Partner[]> {
-    return this.partner;
+  async findAll(
+    page: number,
+    limit: number,
+    search: string,
+  ): Promise<Partner[]> {
+    const partners = this.partner.slice((page - 1) * limit, page * limit);
+    return partners;
   }
 
   async findById(id: string): Promise<Partner> {
     const partner = this.partner.find((item) => item.id === id);
-
     return partner;
   }
 
   async findByDocument(document: string): Promise<Partner> {
     const partner = this.partner.find((item) => item.cnpj === document);
-
     return partner;
   }
 
   async findByCoverageArea(coverageArea: string): Promise<Partner> {
     const partner = this.partner.find((item) => item.category === coverageArea);
-
     return partner;
   }
 
   async findByAddress(cep: string): Promise<Partner[]> {
     const partners = this.partner.filter((item) => {
       const address = item.addresses.find((address) => address.cep === cep);
-
       return address;
     });
 

@@ -5,7 +5,7 @@ export interface PartnerRepository {
   create(partner: Partner): Promise<void>;
   update(id: string, partner: UpdatePartnerDto): Promise<void>;
   delete(id: string): Promise<void>;
-  findAll(): Promise<Partner[]>;
+  findAll(page: number, limit: number, search: string): Promise<Partner[]>;
   findById(id: string): Promise<Partner>;
   findByDocument(document: string): Promise<Partner>;
   findByCoverageArea(coverageArea: string): Promise<Partner>;

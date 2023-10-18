@@ -18,8 +18,22 @@ export class PartnersTypeOrmRepository implements PartnerRepository {
     await this.partnerRepsoitory.delete(id);
   }
 
-  async findAll(): Promise<Partner[]> {
-    const partners = await this.partnerRepsoitory.find();
+  async findAll(
+    page: number,
+    limit: number,
+    search: string,
+  ): Promise<Partner[]> {
+    const skip = (page - 1) * limit;
+    let query = this.partnerRepsoitory.createQueryBuilder('partner');
+
+    if (search) {
+      query = query.where(
+        '(partner.name LIKE :search OR partner.email LIKE :search)',
+        { search: `%${search}%` },
+      );
+    }
+
+    const partners = await query.skip(skip).take(limit).getMany();
 
     return partners;
   }
