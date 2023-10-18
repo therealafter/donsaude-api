@@ -6,6 +6,7 @@ import { AllExceptionsFilter } from 'src/common/filters/exception.filter';
 import databaseConfig from 'src/config/database.config';
 import { PartnerAddress } from 'src/modules/partners/domain/entities/partner-address.entity';
 import { Partner } from 'src/modules/partners/domain/entities/partner.entity';
+import { PartnerModule } from 'src/modules/partners/partner.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { Partner } from 'src/modules/partners/domain/entities/partner.entity';
       }),
       inject: [databaseConfig.KEY],
     }),
+    PartnerModule,
   ],
   providers: [
     {

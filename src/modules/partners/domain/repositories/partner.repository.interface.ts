@@ -13,3 +13,5 @@ export interface PartnerRepository {
   findByAddress(cep: string): Promise<Partner[]>;
   findNearest(nearest: string): Promise<Partner>;
 }
+
+export const PARTNER_REPOSITORY_TOKEN = 'partner-repository-token';
