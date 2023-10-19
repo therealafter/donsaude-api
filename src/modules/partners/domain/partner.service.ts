@@ -8,7 +8,7 @@ import { Partner } from './entities/partner.entity';
 import { LoggerService } from 'src/common/loggers/logger.service';
 import { ICepResponse } from './dtos/cep.dto';
 import { HttpService } from '@nestjs/axios';
-import { validateAndFormatCNPJ } from './utils/format-cep';
+import { validateAndFormatCNPJ } from './utils/format-cnpj';
 
 import { hash } from 'bcrypt';
 import { UpdatePartnerDto } from '../http/dtos/update-partner.dto';
