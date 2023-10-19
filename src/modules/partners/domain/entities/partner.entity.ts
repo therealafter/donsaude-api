@@ -40,7 +40,7 @@ export class Partner {
   financialResponsible: string;
 
   @Column({ name: 'partner_address', type: 'jsonb' })
-  address: AddressDto[];
+  address?: AddressDto[];
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt?: Date;

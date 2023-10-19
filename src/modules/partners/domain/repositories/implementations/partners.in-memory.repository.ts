@@ -8,25 +8,24 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 export class PartnersInMemoryRepository implements PartnerRepository {
   private partners: Partner[] = [];
 
-  async create(partner: AddPartnerDto): Promise<void> {
-    const existingPartner = this.partners.find(
-      (p) => p.email === partner.email,
-    );
-    if (existingPartner) {
-      throw new HttpException(
-        'Partner with this email already exists',
-        HttpStatus.CONFLICT,
-      );
+  async create(partner: Partner): Promise<void> {
+    const partnerAlreadyExists = await this.findByDocument(partner.cnpj);
+
+    if (partnerAlreadyExists) {
+      throw new HttpException('Partner already exists', HttpStatus.CONFLICT);
     }
 
-    const newPartner: Partner = {
-      id: uuid(),
-      ...partner,
-      updatedAt: new Date(),
-      createdAt: new Date(),
-    };
+    const partnerAlreadyExistsByEmail = await this.findByEmail(partner.email);
 
-    this.partners.push(newPartner);
+    if (partnerAlreadyExistsByEmail) {
+      throw new HttpException('Partner already exists', HttpStatus.CONFLICT);
+    }
+
+    partner.id = uuid();
+    partner.createdAt = new Date();
+    partner.updatedAt = new Date();
+
+    this.partners.push(partner);
   }
 
   async update(id: string, partner: UpdatePartnerDto): Promise<void> {
@@ -72,6 +71,6 @@ export class PartnersInMemoryRepository implements PartnerRepository {
   }
 
   async findByAddress(cep: string): Promise<Partner[] | undefined> {
-    return this.partners.filter((p) => p.address.cep === cep);
+    return this.partners.filter((p) => p.address[0].cep === cep);
   }
 }

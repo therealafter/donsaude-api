@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty, IsObject, IsString } from 'class-validator';
 
-export class AddressDto {
+export interface AddressDto {
   cep: string;
   street: string;
   number: string;
@@ -22,7 +22,7 @@ export class AddPartnerDto {
 
   @IsNotEmpty()
   @IsString()
-  confirmPassword: string;
+  confirmPassword?: string;
 
   @IsNotEmpty()
   @IsString()
@@ -54,5 +54,5 @@ export class AddPartnerDto {
 
   @IsNotEmpty()
   @IsObject()
-  address: AddressDto;
+  address?: AddressDto;
 }
