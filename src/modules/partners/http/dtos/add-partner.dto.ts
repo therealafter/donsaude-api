@@ -1,4 +1,10 @@
-import { IsEmail, IsNotEmpty, IsObject, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsEmail,
+  IsNotEmpty,
+  IsObject,
+  IsString,
+} from 'class-validator';
 
 export interface AddressDto {
   cep: string;
@@ -53,6 +59,6 @@ export class AddPartnerDto {
   financialResponsible: string;
 
   @IsNotEmpty()
-  @IsObject()
-  address?: AddressDto;
+  @IsArray()
+  address?: AddressDto[];
 }

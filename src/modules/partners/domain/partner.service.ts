@@ -1,9 +1,11 @@
 import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { AddPartnerDto } from '../http/dtos/add-partner.dto';
+
 import {
   PARTNER_REPOSITORY_TOKEN,
   PartnerRepository,
 } from './repositories/partner.repository.interface';
+
 import { Partner } from './entities/partner.entity';
 import { LoggerService } from 'src/common/loggers/logger.service';
 import { ICepResponse } from './dtos/cep.dto';
@@ -58,7 +60,7 @@ export class PartnerService {
       ...partner,
       cnpj: validateCnpj,
       password: hashPassword,
-      address: [partner.address],
+      address: partner.address,
     });
 
     this.loggerService.info(`Partner ${partner.cnpj} added successfully`);
