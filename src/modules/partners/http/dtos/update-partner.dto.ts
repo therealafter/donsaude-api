@@ -15,7 +15,7 @@ export class UpdatePartnerDto {
   @IsNotEmpty()
   @IsOptional() // O celular pode ser opcional se não for atualizado
   cellphone: string;
-  
+
   @IsString()
   @IsNotEmpty()
   @IsOptional() // A categoria pode ser opcional se não for atualizada

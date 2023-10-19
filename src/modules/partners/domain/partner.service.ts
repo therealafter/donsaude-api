@@ -58,6 +58,7 @@ export class PartnerService {
       ...partner,
       cnpj: validateCnpj,
       password: hashPassword,
+      address: [partner.address],
     });
 
     this.loggerService.info(`Partner ${partner.cnpj} added successfully`);
